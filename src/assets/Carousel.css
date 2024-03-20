@@ -1,0 +1,14 @@
+/* Carousel.css */
+.slick-prev,
+.slick-next {
+    color: black; /* Set arrow color to black */
+    font-size: 24px; /* Adjust arrow size if needed */
+    visibility: visible !important; /* Ensure arrows are always visible */
+}
+
+.slick-prev:hover,
+.slick-prev:focus,
+.slick-next:hover,
+.slick-next:focus {
+    color: black; /* Set arrow hover color to black */
+}

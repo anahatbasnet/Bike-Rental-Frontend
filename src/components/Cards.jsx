@@ -16,7 +16,7 @@ export default function Cards() {
     }, []);
 
     return (
-        <div className="cards-container grid grid-cols-3 gap-6 max-w-7xl mx-28 px-4">
+        <div className="cards-container grid grid-cols-3 gap-6 ">
             {bikes.map((bike, index) => (
                 <div className="card bg-white rounded-lg shadow-md" key={index}>
                     <div className="picture">
@@ -27,7 +27,7 @@ export default function Cards() {
                         <p className="text-gray-600 mb-2">Description: {bike.bikeDetails}</p>
                         <p className="text-gray-600">Price per Hour: ${bike.pricePerHour}</p>
                     </div>
-                    <div className="button-group flex justify-start p-4">
+                    <div className="button-group flex justify-start  py-3">
                         <Button className="mx-2 bg-green-700 hover:bg-green-600">Rent</Button>
                         <Button className="mx-2 bg-orange-600 hover:bg-orange-500">Book</Button>
                     </div>
