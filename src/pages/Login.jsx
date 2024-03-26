@@ -1,5 +1,6 @@
 import React from 'react';
 import Button from "../components/Buttons";
+import { Link } from 'react-router-dom';
 
 export default function Login() {
     return (
@@ -27,9 +28,10 @@ export default function Login() {
                             placeholder="Enter your password"
                         />
                     </div>
-                    <Button className="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <Button className="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                         Login
                     </Button>
+                    <p>Don't have an account <Link to='/register'>Register</Link> </p>
                 </form>
             </div>
         </div>

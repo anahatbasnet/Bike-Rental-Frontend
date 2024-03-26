@@ -18,7 +18,7 @@ export default function Navbar() {
                 <li>Login</li>
                 </Link>
                 <Link to='/register'>
-                <li>Sign In</li>
+                <li>Register</li>
                 </Link>
             </ul>
         </div>

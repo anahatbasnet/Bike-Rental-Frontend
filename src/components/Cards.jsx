@@ -17,12 +17,12 @@ export default function Cards() {
     }, []);
 
     return (
-        <div className="cards-container grid grid-cols-3 gap-6 cursor-pointer">
+        <div className="cards-container grid grid-cols-3 gap-12 cursor-pointer">
             {bikes.map(bike => (
                 <div className="card bg-white rounded-lg shadow-md" key={bike.id}>
                     <Link to={`/productDetail/${bike.id}`}>
                         <div className="picture">
-                            <img src={bike.imageUrl} alt="Bike" className="w-full h-56 object-cover rounded-t-lg" />
+                            <img src={bike.imageUrl} alt="Bike" className="w-full h-[20rem] object-cover rounded-t-lg" />
                         </div>
                         <div className="details-and-prices p-4">
                             <h3 className="text-lg font-semibold mb-2">{bike.bikeName}</h3>
