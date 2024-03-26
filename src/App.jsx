@@ -1,22 +1,14 @@
-import { useState } from 'react'
+import React from 'react';
+import Navbar from './components/Navbar';
+import { AppRoutes } from './Routes';
 
-import Navbar from './components/Navbar'
-import Cards from './components/Cards'
-import Carousel from './components/Carousel'
-
-function App() {
-
-
+const App = () => {
   return (
-    <>
-<Navbar/>
-<div className="screensize max-w-7xl mx-28 px-4">
-  <Carousel/>
+    <div>
+      <Navbar />
+      <AppRoutes />
+    </div>
+  );
+};
 
-<Cards/>
-</div>
-    </>
-  )
-}
-
-export default App
+export default App;
