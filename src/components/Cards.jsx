@@ -9,7 +9,7 @@ export default function Cards() {
     useEffect(() => {
         axiosInstance.get('allBikes')
             .then(response => {
-                setBikes(response.data);
+                setBikes(response.data.data); 
             })
             .catch(error => {
                 console.error('Error fetching data:', error);
@@ -22,7 +22,7 @@ export default function Cards() {
                 <div className="card bg-white rounded-lg shadow-md" key={bike.id}>
                     <Link to={`/productDetail/${bike.id}`}>
                         <div className="picture">
-                            <img src={bike.imageUrl} alt="Bike" className="w-full h-[20rem] object-cover rounded-t-lg" />
+                            <img src={bike.imageUrl} alt="Bike" className="w-full h-[15rem] object-cover rounded-t-lg" />
                         </div>
                         <div className="details-and-prices p-4">
                             <h3 className="text-lg font-semibold mb-2">{bike.bikeName}</h3>

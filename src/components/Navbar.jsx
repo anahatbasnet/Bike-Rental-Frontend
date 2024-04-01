@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 export default function Navbar() {
     return (
-        <div className="flex justify-between items-center border-2  bg-white text-black py-5 px-5 ">
+        <div className="flex justify-between items-center border-2  bg-white text-black py-4 px-5 ">
             <div className='font-bold text-2xl'>
                 <Link to='/'>
                     Bike Rental

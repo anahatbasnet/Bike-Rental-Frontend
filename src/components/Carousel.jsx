@@ -20,7 +20,6 @@ export default function Carousel() {
         { id: 'cycle5', imageUrl: cycleImage5 }
     ];
 
-    
     const settings = {
         dots: false,
         infinite: true,
@@ -29,9 +28,27 @@ export default function Carousel() {
         slidesToScroll: 1,
         autoplay: true, 
         autoplaySpeed: 2000,
-        prevArrow: <button className="slick-arrow slick-prev"><HiOutlineChevronLeft  style={{ color: 'black', backgroundColor: 'black' }} /></button>,
-        nextArrow: <button className="slick-arrow slick-next"><HiOutlineChevronRight style={{ color: 'black', backgroundColor: 'white' }} /></button>
+        prevArrow: <PrevArrow />,
+        nextArrow: <NextArrow />,
     };
+
+    function PrevArrow(props) {
+        const { className, style, onClick } = props;
+        return (
+            <div className={className}  style={{ ...style, zIndex: 9999 }}>
+                <HiOutlineChevronLeft onClick={onClick} className="text-black text-3xl " />
+            </div>
+        );
+    }
+
+    function NextArrow(props) {
+        const { className, style, onClick } = props;
+        return (
+            <div className={className} style={{ ...style, zIndex: 9999 }}>
+                <HiOutlineChevronRight onClick={onClick} className="text-black text-3xl" />
+            </div>
+        );
+    }
 
     return (
         <div className="carousel-container">
