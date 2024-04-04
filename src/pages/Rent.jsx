@@ -13,7 +13,7 @@ export default function Rent() {
                    <div className='flex flex-col'>
 
                    <div>
-                        <img src={bikeDetails.imageUrl} alt="Bike" className="h-[25rem] w-[30rem]" />
+                        <img src={bikeDetails.imageUrl} alt="Bike" className="h-[16rem] w-[35rem]" />
                     </div>
                     <div className="flex-col">
                         <strong>{bikeDetails.bikeName}</strong>
@@ -22,7 +22,7 @@ export default function Rent() {
                     </div>
                    </div>
                     <div className='flex '>
-                        <div className="flex flex-col  pl-6 gap-4 w-[22rem]">
+                        <div className="flex flex-col  pl-6 gap-1 w-[22rem]">
                             <strong>Enter your Details</strong>
                             <label htmlFor="fullName" className="text-gray-600">Full Name</label>
                             <input type="text" id="fullName" placeholder="Enter full name" className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500" />
@@ -42,13 +42,13 @@ export default function Rent() {
                             <label htmlFor="country" className="text-gray-600">Country</label>
                             <input type="text" id="country" placeholder="Enter country" className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500" />
 
-                            <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+                            <button type="submit" className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
                                 Submit
                             </button>
                             </div>
                         </div>
-                        <div className='px-5'>
-                            <p >
+                        <div className='px-5 text-xs gap-3'>
+                            <p>
                                 <strong>
 
                                 Booking Procedure: 
