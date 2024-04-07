@@ -11,6 +11,8 @@ export default function Register() {
         role: 'USER'
     });
 
+    const [registrationStatus, setRegistrationStatus] = useState(null);
+
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
@@ -28,21 +30,17 @@ export default function Register() {
             });
     
             if (response.status === 200) {
-                console.log(response)
-                alert("User registered successfully");
-                
-
+                const responseData = await response.json();
+                setRegistrationStatus(responseData.message);
+            } else if (response.status === 400) {
+                const responseData = await response.json();
+                setRegistrationStatus(responseData.message);
             } else {
-                if (response.status === 400) {
-                    const responseData = await response.json();
-                    alert(responseData.message); 
-                } else {
-                    alert("Registration failed. Please try again.");
-                }
+                setRegistrationStatus("Registration failed. Please try again.");
             }
         } catch (error) {
             console.error('Error registering user:', error);
-            alert("Registration failed. Please try again.");
+            setRegistrationStatus("Registration failed. Please try again.");
         }
     };
     
@@ -104,6 +102,7 @@ export default function Register() {
                         Register
                     </Button>
                     <p>Have an account <Link to='/login'>Login</Link> </p>
+                    {registrationStatus && <p>{registrationStatus}</p>}
                 </form>
             </div>
         </div>
