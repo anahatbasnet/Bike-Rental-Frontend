@@ -31,18 +31,20 @@ export default function Login() {
                 localStorage.setItem('refreshToken', responseData.refreshToken);
                 setLoginStatus(responseData.message);
             } else {
-               
-                    setLoginStatus(responseData.message);
-
-                    
-                
+                console.error('Error logging in:', responseData.error);
+                if (response.status === 500 && responseData.error === 'Query did not return a unique result: 4 results were returned') {
+                    setLoginStatus(responseData.error);
+                } else {
+                    setLoginStatus("Login failed. Please try again.");
+                }
             }
         } catch (error) {
             console.error('Error logging in:', error);
             setLoginStatus("Login failed. Please try again.");
         }
     };
-           
+    
+          
     
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
