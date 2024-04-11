@@ -11,6 +11,7 @@ export default function Calendarcomp() {
 
   const handleSelect = (selectedRange) => {
     setSelectionRange(selectedRange);
+    console.log(selectedRange);
   };
 
   return (

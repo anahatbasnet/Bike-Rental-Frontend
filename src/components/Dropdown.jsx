@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { DateRange } from "react-date-range";
 import { format } from "date-fns";
-import "react-date-range/dist/styles.css"; // main style file
-import "react-date-range/dist/theme/default.css"; // theme css file
+import "react-date-range/dist/styles.css";
+import "react-date-range/dist/theme/default.css";
 
 export function Dropdown({ label, startDate, endDate, onChange }) {
   const [showCalendar, setShowCalendar] = useState(false);
@@ -15,13 +15,13 @@ export function Dropdown({ label, startDate, endDate, onChange }) {
       startDate: formattedStartDate,
       endDate: formattedEndDate,
     });
-    setShowCalendar(false); // Hide the calendar after selecting dates
+    setShowCalendar(false);
   };
 
   useEffect(() => {
     const handleOutsideClick = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setShowCalendar(false); // Close the calendar if clicked outside the dropdown
+        setShowCalendar(false);
       }
     };
 
@@ -37,9 +37,9 @@ export function Dropdown({ label, startDate, endDate, onChange }) {
       <input
         className="border border-gray-300 rounded-md py-2 px-3 md:w-[20rem] focus:outline-none focus:border-blue-500"
         type="text"
-        value={` ${startDate}  To ${endDate}`}
-        onClick={() => setShowCalendar(!showCalendar)} // Toggle calendar visibility on input click
-        readOnly // Prevent user from editing the input directly
+        value={` ${startDate} to ${endDate}`}
+        onClick={() => setShowCalendar(!showCalendar)}
+        readOnly
       />
       {showCalendar && (
         <DateRange
@@ -51,9 +51,9 @@ export function Dropdown({ label, startDate, endDate, onChange }) {
             },
           ]}
           onChange={handleSelect}
-          showDateDisplay={false} // Hides the date display within the calendar
-          minDate={new Date()} // Prevents selection of dates before today
-          showSelectionPreview={false} // Disables today, tomorrow, next week shortcuts
+          showDateDisplay={false}
+          minDate={new Date()}
+          showSelectionPreview={false}
         />
       )}
     </div>

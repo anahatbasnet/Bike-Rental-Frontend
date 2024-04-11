@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -6,7 +6,37 @@ import Calendarcomp from "../components/Calendarcomp";
 
 export default function Rent() {
   const location = useLocation();
+  const [rentDetails, setRentDetails] = useState(null);
   const { bikeDetails } = location.state;
+  const handleSubmit = async (values, { setSubmitting }) => {
+    try {
+      const response = await fetch("http://localhost:8080/rent/userInfo", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({
+          ...values,
+          startDate: values.startDate,
+          endDate: values.endDate,
+        }),
+      });
+      console.log(values.startDate);
+      const responseData = await response.json();
+      if (responseData.responseCode === "SUCCESS") {
+        setRentDetails(responseData.responseMessage);
+      } else if (responseData.responseCode === "BAD_REQUEST") {
+        setRegistrationStatus(responseData.responseMessage);
+      } else {
+        setRegistrationStatus("Registration failed. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error renting the bike", error);
+      setRentDetails("Rent unsucessful. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <div>
@@ -36,17 +66,19 @@ export default function Rent() {
                 initialValues={{
                   fullName: "",
                   email: "",
-                  phoneNumber: "",
+                  phoneNo: "",
                   age: "",
                   address: "",
                   country: "",
+                  startDate: "",
+                  endDate: "",
                 }}
                 validationSchema={Yup.object().shape({
                   fullName: Yup.string().required("This field is required"),
                   email: Yup.string()
                     .email("Please enter a valid email")
                     .required("This field is required"),
-                  phoneNumber: Yup.string()
+                  phoneNo: Yup.string()
                     .matches(/^[0-9]{10}$/, "Phone number must be 10 digits")
                     .required("This field is required"),
 
@@ -59,9 +91,7 @@ export default function Rent() {
                   address: Yup.string().required("This Field is required"),
                   country: Yup.string().required("This Field is required"),
                 })}
-                onSubmit={(values) => {
-                  console.log(values);
-                }}
+                onSubmit={handleSubmit}
               >
                 <Form className="space-y-3">
                   <label
@@ -103,20 +133,20 @@ export default function Rent() {
                   />
 
                   <label
-                    htmlFor="phoneNumber"
+                    htmlFor="phoneNo"
                     className="text-gray-600 flex flex-col"
                   >
                     Phone Number
                   </label>
                   <Field
                     type="text"
-                    id="phoneNumber"
-                    name="phoneNumber"
+                    id="phoneNo"
+                    name="phoneNo"
                     placeholder="Enter phone number"
                     className="border border-gray-300 rounded-md py-2 px-3 md:w-[20rem] focus:outline-none focus:border-blue-500"
                   />
                   <ErrorMessage
-                    name="phoneNumber"
+                    name="phoneNo"
                     component="div"
                     className="text-red-500 text-xs mt-1"
                   />
@@ -174,7 +204,12 @@ export default function Rent() {
                     component="div"
                     className="text-red-500 text-xs mt-1"
                   />
-                  <Calendarcomp className=" md:w-[20rem]" />
+                  <Calendarcomp
+                    onSelectDates={(selectedDates) => {
+                      setFieldValue("startDate", selectedDates.startDate);
+                      setFieldValue("endDate", selectedDates.endDate);
+                    }}
+                  />
 
                   <button
                     type="submit"
@@ -182,6 +217,7 @@ export default function Rent() {
                   >
                     Submit
                   </button>
+                  {rentDetails && <p>{rentDetails}</p>}
                 </Form>
               </Formik>
             </div>
@@ -225,7 +261,7 @@ export default function Rent() {
               <br />
               <br />
               If you have any questions, please write us at
-              bikerental.com@gmail.com.
+              bikerental@gmail.com.
               <br />
               <br />
               Thank you.
