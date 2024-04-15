@@ -1,15 +1,25 @@
 import React, { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import Calendarcomp from "../components/Calendarcomp";
+import CalendarComp from "../components/Calendarcomp";
 
 export default function Rent() {
   const location = useLocation();
+  const navigate = useNavigate();
   const [rentDetails, setRentDetails] = useState(null);
   const { bikeDetails } = location.state;
+  const [selectedStartDate, setSelectedStartDate] = useState(null);
+  const [selectedEndDate, setSelectedEndDate] = useState(null);
+
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
+      // Adjust selected dates to match server timezone
+      const adjustedStartDate = new Date(selectedStartDate);
+      adjustedStartDate.setDate(selectedStartDate.getDate());
+      const adjustedEndDate = new Date(selectedEndDate);
+      adjustedEndDate.setDate(selectedEndDate.getDate());
+
       const response = await fetch("http://localhost:8080/rent/userInfo", {
         method: "POST",
         headers: {
@@ -17,25 +27,34 @@ export default function Rent() {
         },
         body: JSON.stringify({
           ...values,
-          startDate: values.startDate,
-          endDate: values.endDate,
+          startDate: adjustedStartDate,
+          endDate: adjustedEndDate,
         }),
       });
-      console.log(values.startDate);
       const responseData = await response.json();
-      if (responseData.responseCode === "SUCCESS") {
-        setRentDetails(responseData.responseMessage);
-      } else if (responseData.responseCode === "BAD_REQUEST") {
-        setRegistrationStatus(responseData.responseMessage);
+      if (response.ok) {
+        navigate("/payment", {
+          state: {
+            userDetails: values,
+            bikeDetails: bikeDetails,
+            startDate: adjustedStartDate,
+            endDate: adjustedEndDate,
+          },
+        });
       } else {
-        setRegistrationStatus("Registration failed. Please try again.");
+        setRentDetails("Rent unsuccessful. Please try again.");
       }
     } catch (error) {
       console.error("Error renting the bike", error);
-      setRentDetails("Rent unsucessful. Please try again.");
+      setRentDetails("Rent unsuccessful. Please try again.");
     } finally {
       setSubmitting(false);
     }
+  };
+
+  const handleSelectRange = (range) => {
+    setSelectedStartDate(range.startDate);
+    setSelectedEndDate(range.endDate);
   };
 
   return (
@@ -56,7 +75,9 @@ export default function Rent() {
             <div className="flex-col">
               <strong>{bikeDetails.bikeName}</strong>
               <p>Description: {bikeDetails.bikeDetails}</p>
-              <p>Price per Hour: NPR.{bikeDetails.pricePerHour}</p>
+              <p className="text--600">
+                Price/Hour: NPR.{bikeDetails.pricePerHour}
+              </p>
             </div>
           </div>
           <div className="flex ">
@@ -70,8 +91,6 @@ export default function Rent() {
                   age: "",
                   address: "",
                   country: "",
-                  startDate: "",
-                  endDate: "",
                 }}
                 validationSchema={Yup.object().shape({
                   fullName: Yup.string().required("This field is required"),
@@ -81,11 +100,10 @@ export default function Rent() {
                   phoneNo: Yup.string()
                     .matches(/^[0-9]{10}$/, "Phone number must be 10 digits")
                     .required("This field is required"),
-
                   age: Yup.string()
                     .matches(
                       /^[0-9]{2}$/,
-                      "Age must be atleast 2 digits if age is one digit then place 0 infront"
+                      "Age must be at least 2 digits. If age is one digit, then place 0 in front."
                     )
                     .required("This Field is required"),
                   address: Yup.string().required("This Field is required"),
@@ -204,16 +222,18 @@ export default function Rent() {
                     component="div"
                     className="text-red-500 text-xs mt-1"
                   />
-                  <Calendarcomp
-                    onSelectDates={(selectedDates) => {
-                      setFieldValue("startDate", selectedDates.startDate);
-                      setFieldValue("endDate", selectedDates.endDate);
-                    }}
-                  />
+
+                  <label
+                    htmlFor="startDate"
+                    className="text-gray-600 flex flex-col"
+                  >
+                    Select Date Range
+                  </label>
+                  <CalendarComp onSelectRange={handleSelectRange} />
 
                   <button
                     type="submit"
-                    className=" flex flex-col bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                    className="flex flex-col bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
                   >
                     Submit
                   </button>
