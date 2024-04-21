@@ -27,7 +27,7 @@ const PaymentPage = () => {
             <img
               src={bikeDetails.imageUrl}
               alt="Bike"
-              className="w-full h-48 object-cover my-2"
+              className="w-[45rem] h-[20rem] object-cover my-2"
             />
             <p>
               <strong>Bike Name:</strong> {bikeDetails.bikeName}
@@ -85,7 +85,24 @@ const PaymentPage = () => {
               <strong>Final Price:</strong> NPR.
               {finalPrice}
             </p>
-            {/* Add payment options/form here */}
+            <select
+              name="payment options"
+              id=""
+              className="block  px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500 bg-white text-gray-700"
+            >
+              <option disabled selected hidden className="text-gray-500">
+                Select Payment Option
+              </option>
+              <option value="offline" className="text-gray-700">
+                Offline Payment
+              </option>
+              <option value="connect_ips" className="text-gray-700">
+                Connect IPS
+              </option>
+              <option value="khalti" className="text-gray-700">
+                Khalti
+              </option>
+            </select>
           </div>
         </div>
       </div>

@@ -41,6 +41,8 @@ export default function Rent() {
             endDate: adjustedEndDate,
           },
         });
+      } else if (response.status === 403) {
+        navigate("/login");
       } else {
         setRentDetails("Rent unsuccessful. Please try again.");
       }
